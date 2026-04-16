@@ -2,6 +2,8 @@
 - name: Deploy to Tomcat
   hosts: web
   become: yes
+  vars:
+    tomcat_home: /opt/apache-tomcat-9.0.1
   tasks:
     - name: Copy WAR file to Tomcat
       copy:
