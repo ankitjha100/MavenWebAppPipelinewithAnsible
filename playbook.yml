@@ -2,14 +2,23 @@
 - name: Deploy to Tomcat
   hosts: web
   become: yes
+
   vars:
     tomcat_home: /opt/tomcat
+    app_name: MavenWebAppPipelinewithAnsible
+
   tasks:
     - name: Copy WAR file to Tomcat
       copy:
         src: "/var/snap/jenkins/5013/workspace/MavenWebAppPipelinewithAnsible/target/MavenWebAppPipelinewithAnsible.war"
         dest: "/opt/tomcat/webapps/MavenWebAppPipelinewithAnsible.war"
         remote_src: no
+
+    - name: Remove old exploded app
+      file:
+        path: "/opt/tomcat/webapps/MavenWebAppPipelinewithAnsible"
+        state: absent
+
     - name: Restart Tomcat
       systemd:
         name: tomcat
